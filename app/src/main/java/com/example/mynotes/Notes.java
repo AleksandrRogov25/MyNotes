@@ -1,25 +1,30 @@
 package com.example.mynotes;
 
+import androidx.annotation.NonNull;
+
 public class Notes {
 
-    private String name;
-    private String description;
-    private String date;
+    private final String name;
+    private final String description;
+    private final String date;
 
 
 
     public static final Notes[] note = {
-            new Notes("Магазин",
+            new Notes("Понедельник",
                     "Фрукты\nОвощи\nМолоко",
                     "05.05.2022"),
-            new Notes("Учеба",
+            new Notes("Вторник",
                     "Отредактировать первое задание\nВыполнить второе задание",
                     "06.06.2022"),
-            new Notes("Адреса",
+            new Notes("Среда",
                     "Варшавское шоссе\nул.Грина",
                     "16.05.2022"),
-            new Notes("Должники",
-                    "Иванов\nПетров\nСмирнов",
+            new Notes("Четверг",
+                    "Сделать что-нибудь",
+                    "07.06.2022"),
+            new Notes("Пятница",
+                    "Сделать еще что-нибудь",
                     "07.06.2022")
     };
 
@@ -39,6 +44,7 @@ public class Notes {
     public String getName() {
         return name;
     }
+    @NonNull
     public String toString() {
         return this.name;
     }

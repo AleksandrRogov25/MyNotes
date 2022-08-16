@@ -1,36 +1,28 @@
 package com.example.mynotes;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
-import android.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity implements NotesListFragment.NotesListListener {
+
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        NotesFragment notesFragment = new NotesFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, notesFragment)
+                .commit();
 
-    }
-
-    @Override
-    public void itemClicked(long id) {
-        View fragmentContainer = findViewById(R.id.fragment_container);
-        if (fragmentContainer != null) {
-            NotesDetailFragment details = new NotesDetailFragment();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            details.setNotes(id);
-            ft.replace(R.id.fragment_container, details);
-            ft.addToBackStack(null);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
-        } else {
-            Intent intent = new Intent(this, DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_WORKOUT_ID, (int)id);
-            startActivity(intent);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            NotesDetailFragment notesDetailFragment = NotesDetailFragment.newInstance(0);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.notes_detail, notesDetailFragment)
+                    .commit();
         }
-
     }
 }

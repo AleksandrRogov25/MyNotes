@@ -1,28 +1,32 @@
 package com.example.mynotes;
-import android.app.Fragment;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class NotesDetailFragment extends Fragment {
-    private long notesId;
+    static private final String ARG_INDEX = "index";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            notesId = savedInstanceState.getLong("workoutId");
-        }
         return inflater.inflate(R.layout.fragment_notes_detail, container, false);
     }
+
     @Override
-    public void onStart() {
-        super.onStart();
-        View view = getView();
-        if (view != null) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments != null){
+            int index = arguments.getInt(ARG_INDEX);
+            Notes notes = Notes.note[index];
             TextView title = (TextView) view.findViewById(R.id.textTitle);
-            Notes notes = Notes.note[(int) notesId];
             title.setText(notes.getName());
             TextView description = (TextView) view.findViewById(R.id.textDescription);
             description.setText(notes.getDescription());
@@ -30,11 +34,11 @@ public class NotesDetailFragment extends Fragment {
             date.setText(notes.getDate());
         }
     }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putLong("workoutId", notesId);
-    }
-    public void setNotes(long id) {
-        this.notesId = id;
+    public static NotesDetailFragment newInstance (int index) {
+        NotesDetailFragment fragment = new NotesDetailFragment();
+        Bundle args = new Bundle ();
+        args.putInt(ARG_INDEX, index);
+        fragment.setArguments(args);
+        return fragment;
     }
 }
